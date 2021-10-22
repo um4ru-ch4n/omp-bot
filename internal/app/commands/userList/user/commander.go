@@ -10,11 +10,11 @@ import (
 )
 
 type UserService interface {
-	Describe(User_id uint64) (*userlist.User, error)
+	Describe(userID uint64) (*userlist.User, error)
 	List(cursor uint64, limit uint64) ([]userlist.User, error)
 	Create(user []userlist.User) error
-	Update(User_id uint64, user userlist.User) error
-	Remove(User_id uint64) (bool, error)
+	Update(userID uint64, user userlist.User) error
+	Remove(userID uint64) (bool, error)
 	Count() uint64
 }
 

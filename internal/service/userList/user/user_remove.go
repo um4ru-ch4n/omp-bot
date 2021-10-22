@@ -2,17 +2,17 @@ package user
 
 import "fmt"
 
-func (u *DummyUserService) Remove(User_id uint64) (bool, error) {
-	if len(u.Users) < int(User_id) {
+func (u *DummyUserService) Remove(userID uint64) (bool, error) {
+	if len(u.Users) < int(userID) {
 		return false, fmt.Errorf("no user with such index")
 	}
 
-	if User_id == uint64(len(u.Users)) {
-		u.Users = u.Users[:User_id-1]
+	if userID == uint64(len(u.Users)) {
+		u.Users = u.Users[:userID-1]
 		return true, nil
 	}
 
-	u.Users = append(u.Users[:User_id-1], u.Users[User_id:]...)
+	u.Users = append(u.Users[:userID-1], u.Users[userID:]...)
 
 	return true, nil
 }
