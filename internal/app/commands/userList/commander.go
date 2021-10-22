@@ -4,6 +4,7 @@ import (
 	"log"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
+	"github.com/ozonmp/omp-bot/internal/app/commands/userList/employee"
 	"github.com/ozonmp/omp-bot/internal/app/commands/userList/user"
 	"github.com/ozonmp/omp-bot/internal/app/path"
 )
@@ -20,16 +21,18 @@ type IEntityCommander interface {
 }
 
 type listCommander struct {
-	bot           *tgbotapi.BotAPI
-	userCommander IEntityCommander
+	bot               *tgbotapi.BotAPI
+	userCommander     IEntityCommander
+	employeeCommander IEntityCommander
 }
 
 func NewUserListCommander(
 	bot *tgbotapi.BotAPI,
 ) *listCommander {
 	return &listCommander{
-		bot:           bot,
-		userCommander: user.NewUserCommander(bot),
+		bot:               bot,
+		userCommander:     user.NewUserCommander(bot),
+		employeeCommander: employee.NewEmployeeCommander(bot),
 	}
 }
 
@@ -46,6 +49,8 @@ func (c *listCommander) HandleCommand(msg *tgbotapi.Message, commandPath path.Co
 	switch commandPath.Subdomain {
 	case "user":
 		c.userCommander.HandleCommand(msg, commandPath)
+	case "employee":
+		c.employeeCommander.HandleCommand(msg, commandPath)
 	default:
 		log.Printf("listCommander.HandleCommand: unknown subdomain - %s", commandPath.Subdomain)
 	}
