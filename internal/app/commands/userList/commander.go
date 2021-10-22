@@ -8,7 +8,7 @@ import (
 	"github.com/ozonmp/omp-bot/internal/app/path"
 )
 
-type IUserCommander interface {
+type IEntityCommander interface {
 	HandleCallback(callback *tgbotapi.CallbackQuery, callbackPath path.CallbackPath)
 	HandleCommand(message *tgbotapi.Message, commandPath path.CommandPath)
 	Help(inputMsg *tgbotapi.Message)
@@ -19,34 +19,34 @@ type IUserCommander interface {
 	Edit(inputMsg *tgbotapi.Message)
 }
 
-type UserListCommander struct {
+type listCommander struct {
 	bot           *tgbotapi.BotAPI
-	userCommander IUserCommander
+	userCommander IEntityCommander
 }
 
 func NewUserListCommander(
 	bot *tgbotapi.BotAPI,
-) *UserListCommander {
-	return &UserListCommander{
+) *listCommander {
+	return &listCommander{
 		bot:           bot,
 		userCommander: user.NewUserCommander(bot),
 	}
 }
 
-func (c *UserListCommander) HandleCallback(callback *tgbotapi.CallbackQuery, callbackPath path.CallbackPath) {
+func (c *listCommander) HandleCallback(callback *tgbotapi.CallbackQuery, callbackPath path.CallbackPath) {
 	switch callbackPath.Subdomain {
 	case "user":
 		c.userCommander.HandleCallback(callback, callbackPath)
 	default:
-		log.Printf("UserListCommander.HandleCallback: unknown subdomain - %s", callbackPath.Subdomain)
+		log.Printf("listCommander.HandleCallback: unknown subdomain - %s", callbackPath.Subdomain)
 	}
 }
 
-func (c *UserListCommander) HandleCommand(msg *tgbotapi.Message, commandPath path.CommandPath) {
+func (c *listCommander) HandleCommand(msg *tgbotapi.Message, commandPath path.CommandPath) {
 	switch commandPath.Subdomain {
 	case "user":
 		c.userCommander.HandleCommand(msg, commandPath)
 	default:
-		log.Printf("UserListCommander.HandleCommand: unknown subdomain - %s", commandPath.Subdomain)
+		log.Printf("listCommander.HandleCommand: unknown subdomain - %s", commandPath.Subdomain)
 	}
 }
