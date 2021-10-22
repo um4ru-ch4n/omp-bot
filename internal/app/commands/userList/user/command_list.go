@@ -15,7 +15,7 @@ func (c *UserCommander) List(inputMsg *tgbotapi.Message) {
 	outputMsgText := fmt.Sprintf("Users, page: %d\n\n", 1)
 
 	if c.userService.Count() == 0 {
-		msg := tgbotapi.NewMessage(inputMsg.Chat.ID, "There are no users, type /new to create user")
+		msg := tgbotapi.NewMessage(inputMsg.Chat.ID, "There are no users, type /new__list__user [username1 username2...] to create user")
 		_, err := c.bot.Send(msg)
 		if err != nil {
 			log.Printf("UserCommander.List: error sending reply message to chat - %v", err)
