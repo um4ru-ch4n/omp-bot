@@ -1,4 +1,4 @@
-package userlist
+package entitylist
 
 import (
 	"log"
